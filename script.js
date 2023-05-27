@@ -1,27 +1,36 @@
-let com=[0,1,'abc','def','ghi','jkl','mno','pqrs','tuv','wxyz'];
+function letterCombinations(digits) {
+  if (!digits) {
+    return [];
+  }
 
+  const mapping = {
+    '2': 'abc',
+    '3': 'def',
+    '4': 'ghi',
+    '5': 'jkl',
+    '6': 'mno',
+    '7': 'pqrs',
+    '8': 'tuv',
+    '9': 'wxyz'
+  };
 
-function f(ques,comb,res){
-
-    if(ques.length==0){
-      res.push(comb);
-      return;
+  function backtrack(combination, nextDigits) {
+    if (nextDigits.length === 0) {
+      combinations.push(combination);
+    } else {
+      const letters = mapping[nextDigits[0]];
+      for (let i = 0; i < letters.length; i++) {
+        backtrack(combination + letters[i], nextDigits.slice(1));
+      }
     }
-   
-    let dig=parseInt(ques[0]);
-    let curStr=com[dig];
+  }
 
-    for(let i=0;i<curStr.length;i++){
-        let curChar=curStr[i];
-        f(ques.substring(1),comb+curChar,res);
-    }
+  const combinations = [];
+  backtrack('', digits);
+  return combinations;
 }
 
-function letterCombinations(input_digit) {
-  //Complete the function
-	let res=[];
-f(input,"",res);
-return res;
-}
-
-module.exports = letterCombinations;
+// Test the function with the given example
+const digits = "23";
+const result = letterCombinations(digits);
+console.log(result);
